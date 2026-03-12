@@ -1,26 +1,25 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from numpy.linalg import det, inv
 
 from utility import *
 
-LOG_PATH = "logs\\"
+LOG_PATH = ""
 np.random.seed(0)  # чтобы результаты воспроизводились
-N = 200
+N = 1000
 
 M1 = np.array([0.0, 1.0])
 M2 = np.array([1.0, -1.0])
 M3 = np.array([-2.0, 1.0])
-B1 = np.array([[2.0, 0.0],
-               [0.0, 1.0]])
+B1 = np.array([[1.0, 0.1],
+               [0.1, 1.0]])
 
-B2 = np.array([[1.0, -0.4],
-               [-0.4, 2.0]])
+B2 = np.array([[1.0, 0.4],
+               [0.4, 1.0]])
 
-B3 = np.array([[1.5, 0.9],
-               [0.9, 1.5]])
-B_equal = np.array([[2.0, 0.8],
-                    [0.8, 1.5]])
+B3 = np.array([[1.0, -0.4],
+               [-0.4, 1.0]])
+B_equal = np.array([[1.0, 0.4],
+                    [0.4, 1.0]])
 
 X1 = simulate_normal(M1, B_equal, N)
 X2 = simulate_normal(M2, B_equal, N)
@@ -36,19 +35,10 @@ plt.scatter(X2[:, 0], X2[:, 1], s=10, alpha=0.6, label="Класс 2")
 plt.xlabel("x1")
 plt.ylabel("x2")
 plt.legend()
-plt.title("Две выборки N=200 с равными корреляционными матрицами")
+plt.title(f"Две выборки N={N} с равными корреляционными матрицами")
 plt.grid(True)
 plt.tight_layout()
 plt.show()
-
-def estimate_params(X):
-    # X – массив shape (N, 2)
-    N = X.shape[0]
-    M_hat = X.mean(axis=0)
-    # B_hat = (1/N) * sum (x_i - M_hat)(x_i - M_hat)^T
-    diff = X - M_hat
-    B_hat = diff.T @ diff / N
-    return M_hat, B_hat
 
 M1_est, B1_est = estimate_params(X1)
 M2_est, B2_est = estimate_params(X2)
@@ -80,7 +70,7 @@ plt.scatter(X3_3[:, 0], X3_3[:, 1], s=10, alpha=0.6, label="Класс 3")
 plt.xlabel("x1")
 plt.ylabel("x2")
 plt.legend()
-plt.title("Три выборки N=200 с разными корреляционными матрицами")
+plt.title(f"Три выборки N={N} с разными корреляционными матрицами")
 plt.grid(True)
 plt.tight_layout()
 plt.show()
@@ -96,18 +86,41 @@ pairs = [
 ]
 
 print("== Разные корреляционные матрицы ==")
+
+print("Исходные M1:", M1, "M2:", M2, "M3:", M3)
+print("Оценки M1^:", M1_3_est, "M2^:", M2_3_est, "M3^:", M3_3_est)
+print("Исходная B1^:\n", B1)
+print("Исходная B2^:\n", B2)
+print("Исходная B3^:\n", B3)
+print("Оценки B1^:\n", B1_est_3)
+print("Оценки B2^:\n", B2_est_3)
+print("Оценки B3^:\n", B3_est_3)
+
 for name, Ma, Ba, Mb, Bb in pairs:
     rho_b = bhattacharyya_distance(Ma, Ba, Mb, Bb)
     print(f"Пара {name}: расстояние Бхатачария = {rho_b}")
 
-p1 = np.array([0.5, 0.3, 0.5, 0.3, 0.5])  # Вектор 1: p=0.3 на 2 и 4 компоненте
-p2 = np.array([0.3, 0.3, 0.3, 0.3, 0.3])  # Вектор 2: p=0.3 на всех компонентах (пример)
+print("== Бинарные векторы ==")
 
-bin_vecs_1 = simulate_binary_vector(p1, N)
-bin_vecs_2 = simulate_binary_vector(p2, N)
+p = 0.3
 
-np.save(LOG_PATH + "binary_1.npy", bin_vecs_1)
-np.save(LOG_PATH + "binary_2.npy", bin_vecs_2)
+rep_1 = representative_Sch()
+rep_2 = representative_SM()
 
-print("Частоты единиц по компонентам (вектор 1):", bin_vecs_1.mean(axis=0))
-print("Частоты единиц по компонентам (вектор 2):", bin_vecs_2.mean(axis=0))
+plot_binary_vector(rep_1, "Представитель класса 1: 'Щ' (9x9)")
+plot_binary_vector(rep_2, "Представитель класса 2: 'Ь' (9x9)")
+
+Xbin_1 = generate_binary_samples(rep_1, N=N, p=p)
+Xbin_2 = generate_binary_samples(rep_2, N=N, p=p)
+
+np.save("bin_class1_Sch.npy", Xbin_1)
+np.save("bin_class2_SM.npy", Xbin_2)
+
+rep1_flat = rep_1.reshape(-1, 1)
+rep2_flat = rep_2.reshape(-1, 1)
+changed_1 = np.mean(Xbin_1 != rep1_flat)
+changed_2 = np.mean(Xbin_2 != rep2_flat)
+
+print(f"p задано: {p}")
+print(f"Фактическая доля измененных битов для 'Щ': {changed_1:.4f}")
+print(f"Фактическая доля измененных битов для 'Ь': {changed_2:.4f}")
