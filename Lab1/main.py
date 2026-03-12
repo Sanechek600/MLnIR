@@ -44,7 +44,7 @@ M1_est, B1_est = estimate_params(X1)
 M2_est, B2_est = estimate_params(X2)
 
 rho_b_eq = bhattacharyya_distance(M1_est, B1_est, M2_est, B2_est)
-rho_m_eq = mahalanobis_distance(M1_est, M2_est, B_equal)
+rho_m_eq = mahalanobis_distance(M1_est, M2_est, (B1_est + B2_est) / 2)
 
 print("== Равные корреляционные матрицы ==")
 print("Исходные M1:", M1, "M2:", M2)

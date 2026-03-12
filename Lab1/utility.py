@@ -25,11 +25,11 @@ def simulate_normal(M, B, N):
     B11 = B[1, 1]
 
     a00 = np.sqrt(B00)
-    a01 = B01 / a00
-    a11 = np.sqrt(B11 - a01**2)
+    a10 = B01 / a00
+    a11 = np.sqrt(max(0, B11 - (B01**2 / B00)))
 
-    A = np.array([[a00, a01],
-                  [0.0, a11]])
+    A = np.array([[a00, 0.0],
+                  [a10, a11]])
     
     ksi = np.random.randn(N, 2)      # ksi ~ N(0, I)
     X = ksi @ A.T + M                # X = A ksi + M
@@ -77,7 +77,7 @@ def generate_binary_samples(rep_2d, N, p):
     rep = np.asarray(rep_2d, dtype=np.int8).reshape(-1, 1)  # (n,1)
 
     n = rep.shape[0]
-    flips = (np.random.random(size=(n, N)) < p).astype(np.int8)
+    flips = np.floor(np.random.random(size=(n, N)) < p).astype(np.int8)
     X = rep ^ flips
     return X  # (n, N)
 
