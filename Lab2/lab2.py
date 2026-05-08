@@ -65,10 +65,10 @@ def task1_bayes_equal_B():
     
     # Аналитическая оценка (через расстояние Махаланобиса)
     rho = mahalanobis_distance(M0, M1, B)
-    p_err_analyt = norm.cdf(-0.5 * np.sqrt(rho))
+    p_err_analyt = 1 - norm.cdf(0.5 * np.sqrt(rho))
     
     print(f"\tЭкспериментальные ошибки: p0={p0_exp:.4f}, p1={p1_exp:.4f}")
-    print(f"\tАналитическая ошибка: p={p_err_analyt:.4f}")
+    print(f"\tОбщий риск классификации (аналитически): p={p_err_analyt:.4f}")
     
     # Визуализация
     plt.figure(figsize=(8, 6))
