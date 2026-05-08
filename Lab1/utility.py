@@ -44,40 +44,15 @@ def estimate_params(X):
     B_hat = (diff.T @ diff) / N
     return M_hat, B_hat
 
-def representative_Sch():
-    return np.array([
-        [1, 0, 0, 1, 0, 0, 1, 0, 0],
-        [1, 0, 0, 1, 0, 0, 1, 0, 0],
-        [1, 0, 0, 1, 0, 0, 1, 0, 0],
-        [1, 0, 0, 1, 0, 0, 1, 0, 0],
-        [1, 0, 0, 1, 0, 0, 1, 0, 0],
-        [1, 0, 0, 1, 0, 0, 1, 0, 0],
-        [1, 0, 0, 1, 0, 0, 1, 0, 0],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [0, 0, 0, 0, 0, 0, 0, 0, 1],
-    ], dtype=np.int8)
-
-
-def representative_SM():
-    return np.array([
-        [0, 1, 0, 0, 0, 0, 0, 0, 0],
-        [0, 1, 0, 0, 0, 0, 0, 0, 0],
-        [0, 1, 0, 0, 0, 0, 0, 0, 0],
-        [0, 1, 1, 1, 1, 1, 0, 0, 0],
-        [0, 1, 0, 0, 0, 0, 1, 0, 0],
-        [0, 1, 0, 0, 0, 0, 0, 1, 0],
-        [0, 1, 0, 0, 0, 0, 0, 1, 0],
-        [0, 1, 0, 0, 0, 0, 1, 0, 0],
-        [0, 1, 1, 1, 1, 1, 0, 0, 0],
-    ], dtype=np.int8)
-
+def representative(rep):
+    return np.array(rep, dtype=np.int8)
 
 def generate_binary_samples(rep_2d, N, p):
 
     rep = np.asarray(rep_2d, dtype=np.int8).reshape(-1, 1)  # (n,1)
 
     n = rep.shape[0]
-    flips = np.floor(np.random.random(size=(n, N)) < p).astype(np.int8)
+    flips = (np.random.random(size=(n, N)) < p).astype(np.int8)
     X = rep ^ flips
     return X  # (n, N)
 
