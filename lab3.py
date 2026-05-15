@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from numpy.linalg import inv, det
 
-from utility import simulate_normal, estimate_params
+from utility import simulate_normal
 
 OUT = Path(__file__).resolve().parent / 'out'
 OUT.mkdir(parents=True, exist_ok=True)
@@ -19,10 +19,10 @@ rng = np.random.default_rng(7)
 N = 200
 
 M1 = np.array([1.0, 0.0])
-M2 = np.array([1.0, -1.0])
+M2 = np.array([-1.0, -1.0])
 
-B_equal = np.array([[1.0, 0.4],
-                    [0.4, 1.0]])
+B_equal = np.array([[1.0, 0.1],
+                    [0.1, 1.0]])
 B1 = np.array([[1.0, 0.1],
                [0.1, 1.0]])
 B2 = np.array([[1.0, -0.9],
@@ -199,15 +199,11 @@ def lab3(data: Dict[str, np.ndarray]):
     w_b = inv(B_equal) @ (M2 - M1)
     w0_b = -0.5 * (M2 @ inv(B_equal) @ M2 - M1 @ inv(B_equal) @ M1)
 
-    M1_hat, B1_hat = estimate_params(X1)
-    M2_hat, B2_hat = estimate_params(X2)
     w_f_eq, w0_f_eq = fisher_linear_params(M1, B_equal, M2, B_equal)
     w_mse_eq, w0_mse_eq = mse_linear_params(X1, X2)
     w_rm_eq, w0_rm_eq, hist_eq = rm_linear_params(X1, X2, alpha0=0.35, beta=0.7, epochs=30, seed=11)
     err_hist_eq = rm_history_errors(hist_eq, X1, X2)
 
-    M1_hat3, B1_hat3 = estimate_params(X1_3)
-    M2_hat3, B2_hat3 = estimate_params(X2_3)
     w_f_une, w0_f_une = fisher_linear_params(M1, B1, M2, B2)
     w_mse_une, w0_mse_une = mse_linear_params(X1_3, X2_3)
     w_rm_une, w0_rm_une, hist_une = rm_linear_params(X1_3, X2_3, alpha0=0.35, beta=0.7, epochs=30, seed=13)
