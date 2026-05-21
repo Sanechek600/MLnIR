@@ -1,0 +1,84 @@
+Лабораторная 4
+============================================================
+
+1) Линейно разделимые выборки
+Bayes error = 0.000000
+SVC error = 0.000000
+LinearSVC error = 0.000000
+QP error = 0.000000
+QP support vectors = 2
+
+2) Линейно неразделимые классы 1 и 3
+Bayes error = 0.092500
+Best C = 0.03
+Best SVC error = 0.157500
+QP results:
+  C=0.1: error=0.170000, support_vectors=101
+  C=1: error=0.167500, support_vectors=86
+  C=10: error=0.167500, support_vectors=83
+
+3) Ядерный SVM через solve_qp
+  linear, C=0.1: error_full=0.170000, support_vectors=101
+  linear, C=1: error_full=0.167500, support_vectors=86
+  linear, C=10: error_full=0.167500, support_vectors=83
+  poly2, C=0.1: error_full=0.127500, support_vectors=74
+  poly2, C=1: error_full=0.112500, support_vectors=57
+  poly2, C=10: error_full=0.097500, support_vectors=47
+  rbf, C=0.1: error_full=0.132500, support_vectors=139
+  rbf, C=1: error_full=0.107500, support_vectors=76
+  rbf, C=10: error_full=0.100000, support_vectors=65
+
+4) Ядерный SVM через SVC
+  poly, C=0.1: error=0.150000, support_vectors=210
+  poly, C=1: error=0.092500, support_vectors=150
+  poly, C=10: error=0.092500, support_vectors=110
+  rbf, C=0.1: error=0.107500, support_vectors=217
+  rbf, C=1: error=0.097500, support_vectors=132
+  rbf, C=10: error=0.087500, support_vectors=114
+  sigmoid, C=0.1: error=0.172500, support_vectors=280
+  sigmoid, C=1: error=0.162500, support_vectors=190
+  sigmoid, C=10: error=0.127500, support_vectors=150
+
+5) Сводка
+SVC linear C=0.1: p=0.167500
+SVC linear C=1: p=0.157500
+SVC linear C=10: p=0.157500
+SVC linear best C=0.03: p=0.157500
+SVC poly degree=2 C=1: p=0.092500
+SVC rbf gamma=1 C=1: p=0.097500
+SVC sigmoid C=1: p=0.162500
+
+Файлы графиков:
+lab4_kernel_qp_linear_C_0_1.png
+lab4_kernel_qp_linear_C_1.png
+lab4_kernel_qp_linear_C_10.png
+lab4_kernel_qp_poly2_C_0_1.png
+lab4_kernel_qp_poly2_C_1.png
+lab4_kernel_qp_poly2_C_10.png
+lab4_kernel_qp_rbf_C_0_1.png
+lab4_kernel_qp_rbf_C_1.png
+lab4_kernel_qp_rbf_C_10.png
+lab4_kernel_svc_poly_C_0_1.png
+lab4_kernel_svc_poly_C_1.png
+lab4_kernel_svc_poly_C_10.png
+lab4_kernel_svc_rbf_C_0_1.png
+lab4_kernel_svc_rbf_C_1.png
+lab4_kernel_svc_rbf_C_10.png
+lab4_kernel_svc_sigmoid_C_0_1.png
+lab4_kernel_svc_sigmoid_C_1.png
+lab4_kernel_svc_sigmoid_C_10.png
+lab4_neq_bayes.png
+lab4_neq_best_svc.png
+lab4_neq_data.png
+lab4_neq_qp_C_0_1.png
+lab4_neq_qp_C_1.png
+lab4_neq_qp_C_10.png
+lab4_neq_svc_linear_C_0_03.png
+lab4_neq_svc_linear_C_0_1.png
+lab4_neq_svc_linear_C_1.png
+lab4_neq_svc_linear_C_10.png
+lab4_sep_bayes.png
+lab4_sep_data.png
+lab4_sep_linearsvc.png
+lab4_sep_qp.png
+lab4_sep_svc.png
